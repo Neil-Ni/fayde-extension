@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "fayde extension",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Debugger for Fayde",
+    "description": "The description of the application"
+  }
+}
