@@ -1,39 +1,42 @@
 {
-  "name": "fayde extension",
-  "version": "0.0.1",
-  "manifest_version": 2,
-  "description": "Debugger for Fayde",
-  "devtools_page": "devtoolsBackground.html",
-  "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
-  },
-  "default_locale": "en",
-  "background": {
-    "scripts": [
-      "background/chromereload.js",
-      "background/background.js"
-    ]
-  },
-  "omnibox": {
-    "keyword": "fayde extension"
-  },
-  "content_scripts": [
-    {
-      "matches": [
+    "name": "Fayde",
+    "version": "0.0.3",
+    "manifest_version": 2,
+    "description": "Debugger for Fayde",
+    "icons": {
+        "16": "images/icon-16.png",
+        "128": "images/icon-128.png"
+    },
+    "default_locale": "en",
+    "devtools_page": "devtoolsBackground.html",
+    "background": {
+        "scripts": [
+            "scripts/chromereload.js",
+            "scripts/background.js"
+        ]
+    },
+    "omnibox": {
+        "keyword": "test"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "css": [
+                "styles/main.css"
+            ],
+            "js": [
+                "scripts/contentscript.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": false
+        }
+    ],
+    "permissions": [
+        "tabs",
         "http://*/*",
         "https://*/*"
-      ],
-      "js": [
-        "content/contentscript.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": false
-    }
-  ],
-  "permissions": [
-    "tabs",
-    "http://*/*",
-    "https://*/*"
-  ]
+    ]
 }
