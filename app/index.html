@@ -8,9 +8,9 @@
 		<script src="scripts/app.js"></script>
 		<script src="scripts/page/controller.js"></script>
 		<script src="scripts/page/service.js"></script>
-
+    <script src="scripts/page/visuals.js"></script>
 	</head>
-	<body>
+	<body class="body">
 		<header>
 			<h1>Angular</h1>
 		</header>
@@ -18,7 +18,18 @@
 			<input type="text" ng-model="name"><br><br><br>
 			<button id="button" ng-click="onclick(name)"> Say Hi to {{name}} from tab</button><br>
 			<button id="button" ng-click="sayHi()"> Say Hi from panel</button><br>
-			<button id="button" ng-click="sayHiToName(name)"> Say Hi to {{name}} from panel</button>
+			<button id="button" ng-click="sayHiToName(name)"> Say Hi to {{name}} from panel</button><br>
+
+      <ul>
+        <li ng-repeat="layer in layers">
+          {{layer.type.name}} [{{layer.id}}]
+          <ul>
+            <li ng-repeat="child in layer.children">
+              {{child.type.name}} [{{child.id}}]
+            </li>
+          </ul>
+        </li>
+      </ul>
 		</div>
 	</body>
 </html>

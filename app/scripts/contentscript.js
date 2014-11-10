@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
 			script.parentNode.removeChild(script);
 			return;
 		default:
-			console.log("nothing happened");
+			console.log("nothing happened", message);
 			return
 	}
 
