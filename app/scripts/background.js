@@ -1,6 +1,6 @@
 'use strict';
 
-chrome.extension.onConnect.addListener(function (port) {
+chrome.runtime.onConnect.addListener(function (port) {
   // Listen for message from the panel and pass it on to the content
   port.onMessage.addListener(function (message) {
     console.log('Received message from panel (background.js): ' + message);
@@ -14,8 +14,9 @@ chrome.extension.onConnect.addListener(function (port) {
     });
   });
   // Post back to Devtools from content
-  chrome.extension.onMessage.addListener(function (message, sender) {
+  chrome.runtime.onMessage.addListener(function (message, sender) {
     console.log('Received message from content; sending back to panel (background.js): ' + message);
     port.postMessage(message);
   });
 });
+console.log(chrome);

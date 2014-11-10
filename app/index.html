@@ -15,7 +15,10 @@
 			<h1>Angular</h1>
 		</header>
 		<div style="width:200px" ng-controller="PageController">
-			<button id="button" ng-click="onclick()"> Color all the divs</button>
+			<input type="text" ng-model="name"><br><br><br>
+			<button id="button" ng-click="onclick(name)"> Say Hi to {{name}} from tab</button><br>
+			<button id="button" ng-click="sayHi()"> Say Hi from panel</button><br>
+			<button id="button" ng-click="sayHiToName(name)"> Say Hi to {{name}} from panel</button>
 		</div>
 	</body>
 </html>
