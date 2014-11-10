@@ -1,0 +1,2 @@
+myApp.service('pageInfoService', function() {
+});
