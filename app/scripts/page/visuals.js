@@ -1,6 +1,6 @@
 myApp.factory('Visuals', function () {
-  function execFunc(func, cb) {
-    chrome.devtools.inspectedWindow.eval("(" + func.toString() + ")()", function (result, isException) {
+  function execFunc(func, args, cb) {
+    chrome.devtools.inspectedWindow.eval("(" + func.toString() + ").apply(this, " + (args ? JSON.stringify(args) : "") + ")", function (result, isException) {
       cb(result, isException);
     });
   }
@@ -31,16 +31,55 @@ myApp.factory('Visuals', function () {
         arr.push(serializeUpdater(walker.current));
       }
       return arr;
+    },
+    getAssets: function (visualId) {
+      function getVisualById(id) {
+        var app = Fayde.Application.Current;
+        for (var walker = app.MainSurface.walkLayers(); walker.step();) {
+          for (var subwalker = walker.current.walkDeep(); subwalker.step();) {
+            var node = subwalker.current.getAttachedValue("$node");
+            if (node.XObject._ID === id)
+              return subwalker.current;
+          }
+        }
+      }
+
+      var upd = getVisualById(visualId);
+      if (!upd)
+        return null;
+
+      var cache = [];
+      var str = JSON.stringify(upd.assets, function(key, value) {
+        if (typeof value === 'object' && value !== null) {
+          if (cache.indexOf(value) !== -1) {
+            // Circular reference found, discard key
+            return;
+          }
+          // Store value in our collection
+          cache.push(value);
+        }
+        return value;
+      });
+      cache = null;
+
+      return JSON.parse(str);
     }
   };
 
   return {
     getFullTree: function (success, error) {
-      execFunc(funcs.getFullTree, function (result, isException) {
-        if (isException)
-          return error(isException);
+      execFunc(funcs.getFullTree, [], function (result, err) {
+        if (err)
+          return error(err);
         success(result);
       })
+    },
+    getAssets: function (visual, success, error) {
+      execFunc(funcs.getAssets, [visual.id], function (result, err) {
+        if (err)
+          return error(err);
+        success(result);
+      });
     }
   }
 });

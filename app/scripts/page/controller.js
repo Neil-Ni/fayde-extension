@@ -3,6 +3,11 @@ myApp.controller("PageController", function ($scope, pageInfoService, Visuals) {
   var tabId = chrome.devtools.inspectedWindow.tabId;
 
   $scope.layers = [];
+  $scope.cur = {
+    visual: null,
+    assets: {},
+    properties: []
+  };
 
   $scope.getFullTree = function () {
     Visuals.getFullTree(function (layers) {
@@ -12,6 +17,20 @@ myApp.controller("PageController", function ($scope, pageInfoService, Visuals) {
       debug(error);
       $scope.root = "error";
       $scope.$digest();
+    });
+  };
+
+  $scope.select = function (visual) {
+    $scope.cur.visual = visual;
+    Visuals.getAssets(visual, function (assets) {
+      $scope.cur.assets = assets;
+      var props = $scope.cur.properties  = [];
+      for (var key in assets) {
+        props.push({key: key, value: assets[key]});
+      }
+      $scope.$digest();
+    }, function (error) {
+      debug(error);
     });
   };
 

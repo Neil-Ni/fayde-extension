@@ -14,22 +14,33 @@
 		<header>
 			<h1>Angular</h1>
 		</header>
-		<div style="width:200px" ng-controller="PageController">
-			<input type="text" ng-model="name"><br><br><br>
-			<button id="button" ng-click="onclick(name)"> Say Hi to {{name}} from tab</button><br>
-			<button id="button" ng-click="sayHi()"> Say Hi from panel</button><br>
-			<button id="button" ng-click="sayHiToName(name)"> Say Hi to {{name}} from panel</button><br>
+    <div ng-controller="PageController">
+      <div style="float: left; width:200px">
+        <input type="text" ng-model="name"><br><br><br>
+        <button id="button" ng-click="onclick(name)"> Say Hi to {{name}} from tab</button><br>
+        <button id="button" ng-click="sayHi()"> Say Hi from panel</button><br>
+        <button id="button" ng-click="sayHiToName(name)"> Say Hi to {{name}} from panel</button><br>
 
-      <ul>
-        <li ng-repeat="layer in layers">
-          {{layer.type.name}} [{{layer.id}}]
+        <ul>
+          <li ng-repeat="layer in layers">
+            <span ng-click="select(layer)" style="cursor: pointer;" ng-class="{true:'selected', false:''}[cur.visual === child]">{{layer.type.name}} [{{layer.id}}]</span>
+            <ul>
+              <li ng-repeat="child in layer.children">
+                <span ng-click="select(child)" style="cursor: pointer;" ng-class="{true:'selected', false:''}[cur.visual === child]">{{child.type.name}} [{{child.id}}]</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div style="margin-left: 200px;">
+        <div>
           <ul>
-            <li ng-repeat="child in layer.children">
-              {{child.type.name}} [{{child.id}}]
+            <li ng-repeat="prop in cur.properties">
+              <span style="font-weight: bold;">{{prop.key}}</span>: <span>{{prop.value}}</span>
             </li>
           </ul>
-        </li>
-      </ul>
-		</div>
+        </div>
+      </div>
+    </div>
 	</body>
 </html>
