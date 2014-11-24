@@ -4,11 +4,13 @@
 		<meta charset="utf-8">
 
 		<link href="styles/main.css" rel="stylesheet">
+    <link href="scripts/components/treeview/style.css" rel="stylesheet">
 		<script src="bower_components/angular/angular.min.js"></script>
 		<script src="scripts/app.js"></script>
 		<script src="scripts/page/controller.js"></script>
 		<script src="scripts/page/service.js"></script>
     <script src="scripts/page/visuals.js"></script>
+    <script src="scripts/components/treeview/treeViewDirective.js"></script>
 	</head>
 	<body class="body">
 		<header>
@@ -41,6 +43,9 @@
           </ul>
         </div>
       </div>
+
+      <div tree-view="cur"></div>
     </div>
+
 	</body>
 </html>
