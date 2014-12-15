@@ -16,14 +16,11 @@ myApp.directive('treeView', ['$q', function ($q) {
 				selectedNode;
 
 			self.selectNode = function (value) {
-				if (selectedFile) {
-					selectedFile = undefined;
-				}
 				selectedNode = value;
 			};
 
 			self.isSelected = function (value) {
-				return value === selectedNode;
+				return angular.equals(value, selectedNode);
 			};
 
 		}]
@@ -38,14 +35,10 @@ myApp.directive('treeViewNode', ['$q', '$compile', function ($q, $compile) {
 
 			scope.expanded = false;
 
-			scope.selectNode = function (value, event) {
+			scope.selectNode = function (event) {
 				event.preventDefault();
 				toggleExpanded();
-				var nodeScope = scope;
-				while (nodeScope.value) {
-					nodeScope = nodeScope.$parent;
-				}
-				controller.selectNode(value);
+				controller.selectNode(scope.value);
 			};
 			
 			scope.isSelected = function (node) {
@@ -97,14 +90,16 @@ myApp.directive('treeViewNode', ['$q', '$compile', function ($q, $compile) {
 			}
 
 			function render() {
-				var template =
+				var template =  
 					'<div class="tree-folder" ng-repeat="(key, value) in ' + attrs.treeViewNode + '">' +
-						'<a href="#" class="tree-folder-header inline" ng-click="selectNode(value, $event)"}" ng-class="{ selected: isSelected(value) }">' +
+						'<a href="#" class="tree-folder-header inline" ng-click="selectNode($event)"}">' +
 							'<span class="tree-folder-name">{{key}} {{getFileType(value)}}</span> ' +
 						'</a>' +
-						'<div class="tree-folder-content" ng-show="expanded" >' +
+						'<div class="tree-folder-content" ng-show="expanded">' +
 							'<div ng-if="isDict(value)">' +
-								'<div tree-view-node="value"></div>' +
+								'<div class="tree-folder">' +
+									'<div tree-view-node="value"></div>' +
+								'</div>' +    
 							'</div>' +
 							'<div ng-if="!isDict(value)">' +
 								'<div class="tree-folder">' +
